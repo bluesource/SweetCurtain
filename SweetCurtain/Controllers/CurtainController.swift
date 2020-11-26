@@ -120,6 +120,10 @@ class CurtainController: UIViewController {
         super.init(coder: coder)
     }
     
+    deinit {
+        removeObservers()
+    }
+    
     open override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -342,6 +346,11 @@ extension CurtainController {
     internal func addObservers() {
         topMostScrollView?.addObserver(self, forKeyPath: #keyPath(UIScrollView.contentOffset), options: [.new, .old], context: nil)
         topMostScrollView?.addObserver(self, forKeyPath: #keyPath(UIScrollView.panGestureRecognizer.state), options: [.new, .old], context: nil)
+    }
+    
+    internal func removeObservers() {
+        topMostScrollView?.removeObserver(self, forKeyPath: #keyPath(UIScrollView.contentOffset))
+        topMostScrollView?.removeObserver(self, forKeyPath: #keyPath(UIScrollView.panGestureRecognizer.state))
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
